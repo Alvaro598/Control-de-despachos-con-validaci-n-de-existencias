@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f8">
+  <title>La Quinta · Despachos</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#registro" aria-label="La Quinta, inicio">
+      <span class="brand-mark">LQ</span><span><b>La Quinta</b><small>OPERACIONES</small></span>
+    </a>
+    <div class="nav-label">GESTIÓN</div>
+    <nav aria-label="Navegación principal">
+      <a class="nav-link active" href="#registro" data-view="registro"><span class="nav-icon">＋</span> Registro de despacho</a>
+      <a class="nav-link" href="#historial" data-view="historial"><span class="nav-icon">↻</span> Historial de movimientos</a>
+    </nav>
+    <div class="side-note"><span class="status-dot"></span> Sistema de despachos</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar"><div class="crumb">Distribuidora La Quinta <span>/</span> <b id="crumb-current">Registro de despacho</b></div><div class="avatar" aria-label="Usuario">LQ</div></header>
+    <section class="view active" id="view-registro" aria-labelledby="page-title">
+      <div class="page-heading"><div><div class="eyebrow">OPERACIONES · INVENTARIO</div><h1 id="page-title">Registro de despacho</h1><p>Registra una solicitud y consulta su resultado de inventario.</p></div></div>
+      <div class="content-grid">
+        <section class="card form-card">
+          <div class="card-heading"><div><h2>Datos de la solicitud</h2><p>Completa la información para procesar el despacho.</p></div><span class="step-badge">NUEVO</span></div>
+          <form id="dispatch-form" novalidate>
+            <div class="form-grid">
+              <label>Solicitante <span class="required">*</span><input name="solicitante" autocomplete="name" required maxlength="120" placeholder="Nombre completo"><span class="field-error"></span></label>
+              <label>Correo <span class="required">*</span><input name="correo" type="email" autocomplete="email" required maxlength="254" placeholder="nombre@empresa.com"><span class="field-error"></span></label>
+              <label>Código de producto <span class="required">*</span><input name="codigo_producto" required maxlength="32" placeholder="Ej. INS-0101"><span class="field-error"></span></label>
+              <label>Cantidad <span class="required">*</span><input name="cantidad" type="number" min="0.01" step="any" required placeholder="0"><span class="field-error"></span></label>
+              <label>Destino <span class="required">*</span><input name="destino" required maxlength="160" placeholder="Sede o dirección de entrega"><span class="field-error"></span></label>
+              <label>Motivo <span class="required">*</span><select name="motivo" required><option value="" disabled selected>Selecciona un motivo</option><option value="despacho">Despacho</option><option value="traslado entre sedes">Traslado entre sedes</option><option value="avería">Avería</option></select><span class="field-error"></span></label>
+            </div>
+            <div class="form-footer"><span><span class="required">*</span> Campos obligatorios</span><button class="button primary" type="submit" id="submit-button"><span class="button-icon">↗</span> Registrar solicitud</button></div>
+          </form>
+        </section>
+        <aside class="info-card"><div class="info-icon">i</div><h3>¿Qué ocurre al registrar?</h3><p>La solicitud se envía a la automatización para consultar existencias, calcular el saldo y decidir si procede.</p><div class="flow-mini"><span>Solicitud</span><i>→</i><span>Inventario</span><i>→</i><span>Resultado</span></div><div class="info-foot">La decisión depende del inventario disponible.</div></aside>
+      </div>
+      <section class="result-panel" id="result-panel" hidden aria-live="polite"></section>
+    </section>
+
+    <section class="view" id="view-historial" aria-labelledby="history-title">
+      <div class="page-heading"><div><div class="eyebrow">OPERACIONES · TRAZABILIDAD</div><h1 id="history-title">Historial de movimientos</h1><p>Consulta las solicitudes procesadas y sus resultados.</p></div><button class="button secondary" id="refresh-history">↻ &nbsp;Actualizar</button></div>
+      <section class="card history-card"><div class="history-toolbar"><div><h2>Movimientos</h2><p id="history-count">Cargando historial…</p></div><input id="history-search" class="search" type="search" placeholder="Buscar código o solicitante" aria-label="Buscar historial"></div>
+        <div class="table-wrap"><table><thead><tr><th>FECHA Y HORA</th><th>PRODUCTO</th><th>SOLICITANTE</th><th>CANTIDAD</th><th>DESTINO</th><th>RESULTADO</th></tr></thead><tbody id="history-body"><tr><td colspan="6" class="empty-state">Cargando movimientos…</td></tr></tbody></table></div>
+      </section>
+    </section>
+    <footer class="footer">Distribuidora La Quinta S.A.S. <span>·</span> Gestión de despachos</footer>
+  </main>
+  <script src="/app.js" defer></script>
+</body>
+</html>
