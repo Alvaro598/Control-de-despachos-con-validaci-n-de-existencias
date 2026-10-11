@@ -31,7 +31,7 @@
             <div class="form-grid">
               <label>Solicitante <span class="required">*</span><input name="solicitante" autocomplete="name" required maxlength="120" placeholder="Nombre completo"><span class="field-error"></span></label>
               <label>Correo <span class="required">*</span><input name="correo" type="email" autocomplete="email" required maxlength="254" placeholder="nombre@empresa.com"><span class="field-error"></span></label>
-              <label>Código de producto <span class="required">*</span><input name="codigo_producto" required maxlength="32" placeholder="Ej. INS-0101"><span class="field-error"></span></label>
+              <label>Producto <span class="required">*</span><select name="codigo_producto" id="product-select" required disabled><option value="">Cargando productos…</option></select><span class="field-error" id="product-error"></span></label>
               <label>Cantidad <span class="required">*</span><input name="cantidad" type="number" min="0.01" step="any" required placeholder="0"><span class="field-error"></span></label>
               <label>Destino <span class="required">*</span><input name="destino" required maxlength="160" placeholder="Sede o dirección de entrega"><span class="field-error"></span></label>
               <label>Motivo <span class="required">*</span><select name="motivo" required><option value="" disabled selected>Selecciona un motivo</option><option value="despacho">Despacho</option><option value="traslado entre sedes">Traslado entre sedes</option><option value="avería">Avería</option></select><span class="field-error"></span></label>

@@ -128,6 +128,14 @@ class Handler(SimpleHTTPRequestHandler):
                 rows = db.execute("SELECT * FROM movimientos ORDER BY fecha_hora DESC LIMIT 500").fetchall()
             self.send_json(200, {"movimientos": [dict(row) for row in rows]})
             return
+        if self.path == "/api/products":
+            try:
+                products = json.loads((ROOT / "products.json").read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                self.send_json(500, {"error": "No se pudo leer el catálogo de productos."})
+                return
+            self.send_json(200, {"productos": products})
+            return
         if self.path == "/":
             self.path = "/index.html"
         if self.path.startswith("/api/"):
@@ -167,11 +175,19 @@ class Handler(SimpleHTTPRequestHandler):
                 raw = response.read(65_536)
                 make_result = json.loads(raw.decode("utf-8"))
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
-            self.send_json(502, {"error": "No se recibió respuesta confiable de Make.", "detalle": str(exc)[:300]})
+            # URL errors can include the webhook URL, which contains its secret token.
+            print(f"Make webhook request failed: {type(exc).__name__}")
+            self.send_json(502, {"error": "No se recibió respuesta confiable de Make."})
             return
-        except (UnicodeDecodeError, json.JSONDecodeError):
-            self.send_json(502, {"error": "Make respondió con un cuerpo que no es JSON válido."})
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            print(f"Make response parsing failed: {type(exc).__name__}")
+            print(f"Make response body: {raw[:2000]!r}")
+            self.send_json(502, {
+                "error": "Make respondió con un cuerpo que no es JSON válido.",
+                "detalle": raw[:1000].decode("utf-8", errors="replace")
+            })
             return
+       
         if not isinstance(make_result, dict):
             self.send_json(502, {"error": "La respuesta de Make debe ser un objeto JSON."})
             return

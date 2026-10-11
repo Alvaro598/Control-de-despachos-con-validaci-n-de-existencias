@@ -5,6 +5,28 @@ const historyBody = document.querySelector('#history-body');
 const historyCount = document.querySelector('#history-count');
 let historyItems = [];
 
+async function loadProducts() {
+  const select = document.querySelector('#product-select');
+  const error = document.querySelector('#product-error');
+  try {
+    const response = await fetch('/api/products');
+    if (!response.ok) throw new Error('No se pudo cargar el catálogo.');
+    const data = await response.json();
+    const products = Array.isArray(data.productos) ? data.productos : [];
+    select.replaceChildren(new Option('Selecciona un producto', ''));
+    for (const product of products) {
+      if (!product.codigo || !product.nombre) continue;
+      select.add(new Option(`${product.codigo} · ${product.nombre}`, product.codigo));
+    }
+    if (select.options.length === 1) throw new Error('El catálogo no contiene productos.');
+    select.disabled = false;
+  } catch {
+    select.replaceChildren(new Option('Catálogo no disponible', ''));
+    error.textContent = 'No se pudo cargar la lista. Revisa products.json y vuelve a cargar la página.';
+  }
+}
+loadProducts();
+
 const outcomeLabels = {
   APROBADO: 'Aprobado',
   'APROBADO CON ALERTA': 'Aprobado con alerta',
@@ -37,7 +59,7 @@ function validateForm() {
     if (!field.value.trim()) message = 'Este campo es obligatorio.';
     else if (field.name === 'correo' && !field.validity.valid) message = 'Ingresa un correo válido.';
     else if (field.name === 'cantidad' && (!Number.isFinite(Number(field.value)) || Number(field.value) <= 0)) message = 'La cantidad debe ser un número positivo.';
-    else if (field.name === 'codigo_producto' && !/^[A-Za-z0-9-]+$/.test(field.value.trim())) message = 'Revisa el código del producto.';
+    else if (field.name === 'codigo_producto' && !/^[A-Za-z0-9-]+$/.test(field.value.trim())) message = 'Selecciona un producto válido.';
     field.setAttribute('aria-invalid', message ? 'true' : 'false');
     error.textContent = message;
     if (message) valid = false;

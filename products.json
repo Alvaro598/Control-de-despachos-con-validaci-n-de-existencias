@@ -1,0 +1,34 @@
+[
+  {
+    "codigo": "INS-0101",
+    "nombre": "Harina de trigo x 25 kg"
+  },
+  {
+    "codigo": "INS-0102",
+    "nombre": "Azúcar refinada x 50 kg"
+  },
+  {
+    "codigo": "INS-0203",
+    "nombre": "Aceite vegetal x 20 L"
+  },
+  {
+    "codigo": "INS-0204",
+    "nombre": "Arroz blanco x 25 kg"
+  },
+  {
+    "codigo": "INS-0305",
+    "nombre": "Servilletas x 1000 u"
+  },
+  {
+    "codigo": "INS-0306",
+    "nombre": "Vasos desechables 7 oz x 2500"
+  },
+  {
+    "codigo": "INS-0407",
+    "nombre": "Pollo congelado x 10 kg"
+  },
+  {
+    "codigo": "INS-0408",
+    "nombre": "Queso mozzarella x 5 kg"
+  }
+]
